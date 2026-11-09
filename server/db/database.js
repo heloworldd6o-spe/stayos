@@ -2,11 +2,30 @@ const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-const dbPath = path.resolve(__dirname, 'stayos.db');
+let dbPath = path.resolve(__dirname, 'stayos.db');
+
+// Support serverless environments (Vercel / Netlify / AWS Lambda) where project root is read-only
+const isServerless = process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME;
+if (isServerless) {
+  const tmpPath = path.join('/tmp', 'stayos.db');
+  try {
+    if (!fs.existsSync(tmpPath) && fs.existsSync(dbPath)) {
+      fs.copyFileSync(dbPath, tmpPath);
+    }
+    dbPath = tmpPath;
+  } catch (err) {
+    console.warn('⚠️ Serverless /tmp db copy warning:', err.message);
+  }
+}
+
 const db = new Database(dbPath, { verbose: process.env.NODE_ENV === 'development' ? null : null });
 
 // Enforce foreign keys and WAL mode for maximum performance and concurrency
-db.pragma('journal_mode = WAL');
+try {
+  db.pragma('journal_mode = WAL');
+} catch (e) {
+  db.pragma('journal_mode = DELETE');
+}
 db.pragma('foreign_keys = ON');
 
 // Initialize schema

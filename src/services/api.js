@@ -1,5 +1,7 @@
 // StayOS API Service Client
-const API_BASE = '/api';
+const API_BASE = import.meta.env.VITE_API_URL
+  ? import.meta.env.VITE_API_URL.replace(/\/$/, '') + '/api'
+  : '/api';
 
 async function request(endpoint, options = {}) {
   const token = localStorage.getItem('stayos_token');
@@ -22,6 +24,9 @@ async function request(endpoint, options = {}) {
     const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error(data.error || 'Backend API endpoint not found (404). Ensure backend server is running or set VITE_API_URL.');
+      }
       throw new Error(data.error || `HTTP error! Status: ${response.status}`);
     }
 
