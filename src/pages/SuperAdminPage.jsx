@@ -153,41 +153,37 @@ export default function SuperAdminPage() {
       <div className="flex border-b border-slate-200 bg-white px-4 rounded-xl shadow-sm gap-6">
         <button
           onClick={() => setActiveSubTab('orgs')}
-          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${
-            activeSubTab === 'orgs'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${activeSubTab === 'orgs'
+            ? 'border-indigo-600 text-indigo-600'
+            : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
         >
           Tenant Organizations ({organizations.length})
         </button>
         <button
           onClick={() => setActiveSubTab('plans')}
-          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${
-            activeSubTab === 'plans'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${activeSubTab === 'plans'
+            ? 'border-indigo-600 text-indigo-600'
+            : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
         >
           Subscription Tiers ({plans.length})
         </button>
         <button
           onClick={() => setActiveSubTab('logs')}
-          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${
-            activeSubTab === 'logs'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${activeSubTab === 'logs'
+            ? 'border-indigo-600 text-indigo-600'
+            : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
         >
           System Audit Stream ({auditLogs.length})
         </button>
         <button
           onClick={() => setActiveSubTab('health')}
-          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${
-            activeSubTab === 'health'
-              ? 'border-indigo-600 text-indigo-600'
-              : 'border-transparent text-slate-500 hover:text-slate-800'
-          }`}
+          className={`py-3.5 px-2 text-sm font-bold border-b-2 transition ${activeSubTab === 'health'
+            ? 'border-indigo-600 text-indigo-600'
+            : 'border-transparent text-slate-500 hover:text-slate-800'
+            }`}
         >
           Services Health
         </button>
@@ -245,11 +241,10 @@ export default function SuperAdminPage() {
                       {org.property_count || 2} Properties
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase ${
-                        org.status === 'active'
-                          ? 'bg-emerald-100 text-emerald-800'
-                          : 'bg-rose-100 text-rose-800'
-                      }`}>
+                      <span className={`px-2 py-0.5 rounded-md font-bold text-[10px] uppercase ${org.status === 'active'
+                        ? 'bg-emerald-100 text-emerald-800'
+                        : 'bg-rose-100 text-rose-800'
+                        }`}>
                         {org.status}
                       </span>
                     </td>
@@ -260,11 +255,10 @@ export default function SuperAdminPage() {
                       <button
                         onClick={() => toggleOrgStatus(org.id, org.status)}
                         disabled={updatingOrg === org.id}
-                        className={`px-3 py-1.5 rounded-lg font-bold text-xs transition inline-flex items-center gap-1.5 ${
-                          org.status === 'active'
-                            ? 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200'
-                            : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200'
-                        }`}
+                        className={`px-3 py-1.5 rounded-lg font-bold text-xs transition inline-flex items-center gap-1.5 ${org.status === 'active'
+                          ? 'bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200'
+                          : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200'
+                          }`}
                       >
                         {org.status === 'active' ? (
                           <>

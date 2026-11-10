@@ -68,7 +68,7 @@ router.get('/', requireAuth, enforceTenant, (req, res) => {
       params.push(priority);
     }
 
-    query += ' ORDER BY CASE c.status WHEN "submitted" THEN 1 WHEN "assigned" THEN 2 WHEN "in_progress" THEN 3 ELSE 4 END, c.created_at DESC';
+    query += " ORDER BY CASE c.status WHEN 'submitted' THEN 1 WHEN 'assigned' THEN 2 WHEN 'in_progress' THEN 3 ELSE 4 END, c.created_at DESC";
 
     const complaints = db.prepare(query).all(...params);
     const parsed = complaints.map(c => ({
