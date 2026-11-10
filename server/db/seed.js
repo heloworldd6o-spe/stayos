@@ -567,7 +567,11 @@ async function seedData() {
   console.log('✅ Seed completed successfully with realistic multi-tenant data!');
 }
 
-seedData().catch(err => {
-  console.error('❌ Error during seeding:', err);
-  process.exit(1);
-});
+if (require.main === module) {
+  seedData().catch(err => {
+    console.error('❌ Error during seeding:', err);
+    process.exit(1);
+  });
+}
+
+module.exports = { seedData };

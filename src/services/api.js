@@ -21,13 +21,20 @@ async function request(endpoint, options = {}) {
 
   try {
     const response = await fetch(`${API_BASE}${endpoint}`, config);
-    const data = await response.json().catch(() => ({}));
+    let data;
+    const contentType = response.headers.get('content-type') || '';
+    if (contentType.includes('application/json')) {
+      data = await response.json().catch(() => ({}));
+    } else {
+      const text = await response.text().catch(() => '');
+      data = { error: text ? (text.length > 120 ? text.substring(0, 120) + '...' : text) : `HTTP error! Status: ${response.status}` };
+    }
 
     if (!response.ok) {
       if (response.status === 404) {
-        throw new Error(data.error || 'Backend API endpoint not found (404). Ensure backend server is running or set VITE_API_URL.');
+        throw new Error(data?.error || 'Backend API endpoint not found (404). Ensure backend server is running or set VITE_API_URL.');
       }
-      throw new Error(data.error || `HTTP error! Status: ${response.status}`);
+      throw new Error(data?.error || `HTTP error! Status: ${response.status}`);
     }
 
     return data;

@@ -1,68 +1,79 @@
-const Database = require('better-sqlite3');
 const path = require('path');
 const fs = require('fs');
 
-let dbPath = path.resolve(__dirname, 'stayos.db');
-
-// Support serverless environments (Vercel / Netlify / AWS Lambda) where project root is read-only
-const isServerless = process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME;
-if (isServerless) {
-  const tmpPath = path.join('/tmp', 'stayos.db');
-  try {
-    if (!fs.existsSync(tmpPath) && fs.existsSync(dbPath)) {
-      fs.copyFileSync(dbPath, tmpPath);
-    }
-    dbPath = tmpPath;
-  } catch (err) {
-    console.warn('⚠️ Serverless /tmp db copy warning:', err.message);
-  }
-}
-
-const db = new Database(dbPath, { verbose: process.env.NODE_ENV === 'development' ? null : null });
-
-// Enforce foreign keys and WAL mode for maximum performance and concurrency
+let Database = null;
 try {
-  db.pragma('journal_mode = WAL');
+  Database = require('better-sqlite3');
 } catch (e) {
-  db.pragma('journal_mode = DELETE');
+  console.warn('⚠️ better-sqlite3 native module not available:', e.message);
 }
-db.pragma('foreign_keys = ON');
 
-// Initialize schema
-function initDatabase() {
-  const schemaPath = path.resolve(__dirname, 'schema.sql');
-  if (fs.existsSync(schemaPath)) {
-    const schemaSql = fs.readFileSync(schemaPath, 'utf8');
-    db.exec(schemaSql);
-    console.log('✅ Database schema initialized successfully');
-  }
+let db = null;
 
-  // Ensure every property has at least one building and floor
+if (Database) {
   try {
-    const properties = db.prepare('SELECT id, name FROM properties').all();
-    for (const prop of properties) {
-      let bldg = db.prepare('SELECT id FROM buildings WHERE property_id = ?').get(prop.id);
-      if (!bldg) {
-        const bldgId = `bldg-${prop.id.replace('prop-', '')}-main`;
-        db.prepare('INSERT INTO buildings (id, property_id, name, code, total_floors) VALUES (?, ?, ?, ?, ?)')
-          .run(bldgId, prop.id, 'Main Wing', 'MAIN', 3);
-        bldg = { id: bldgId };
-      }
-      const floorCount = db.prepare('SELECT COUNT(*) as count FROM floors WHERE property_id = ?').get(prop.id).count;
-      if (floorCount === 0) {
-        db.prepare('INSERT INTO floors (id, building_id, property_id, floor_number, floor_name) VALUES (?, ?, ?, 0, ?)')
-          .run(`floor-${prop.id.replace('prop-', '')}-0`, bldg.id, prop.id, 'Ground Floor');
-        db.prepare('INSERT INTO floors (id, building_id, property_id, floor_number, floor_name) VALUES (?, ?, ?, 1, ?)')
-          .run(`floor-${prop.id.replace('prop-', '')}-1`, bldg.id, prop.id, '1st Floor');
-        db.prepare('INSERT INTO floors (id, building_id, property_id, floor_number, floor_name) VALUES (?, ?, ?, 2, ?)')
-          .run(`floor-${prop.id.replace('prop-', '')}-2`, bldg.id, prop.id, '2nd Floor');
+    let dbPath = path.resolve(__dirname, 'stayos.db');
+    const isServerless = process.env.VERCEL || process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME;
+    if (isServerless) {
+      const tmpPath = path.join('/tmp', 'stayos.db');
+      try {
+        if (!fs.existsSync(tmpPath) && fs.existsSync(dbPath)) {
+          fs.copyFileSync(dbPath, tmpPath);
+        }
+        dbPath = tmpPath;
+      } catch (err) {
+        console.warn('⚠️ Serverless /tmp db copy warning:', err.message);
       }
     }
+
+    db = new Database(dbPath, { verbose: process.env.NODE_ENV === 'development' ? null : null });
+    try {
+      db.pragma('journal_mode = WAL');
+    } catch (e) {
+      db.pragma('journal_mode = DELETE');
+    }
+    db.pragma('foreign_keys = ON');
+
+    // Initialize schema
+    let schemaSql = '';
+    const schemaPath = path.resolve(__dirname, 'schema.sql');
+    if (fs.existsSync(schemaPath)) {
+      schemaSql = fs.readFileSync(schemaPath, 'utf8');
+    } else {
+      try {
+        schemaSql = require('./schema');
+      } catch (e) {
+        console.warn('Could not load schema.js:', e.message);
+      }
+    }
+
+    if (schemaSql) {
+      try {
+        db.exec(schemaSql);
+      } catch (e) {
+        console.warn('Schema init note:', e.message);
+      }
+    }
+
+    // Ensure seed data exists if fresh database
+    try {
+      const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get()?.count || 0;
+      if (userCount === 0) {
+        const { seedData } = require('./seed');
+        seedData().catch(e => console.error('Seed error:', e.message));
+      }
+    } catch (err) {
+      console.warn('Seed check note:', err.message);
+    }
   } catch (err) {
-    console.warn('⚠️ Building/floor self-heal note:', err.message);
+    console.warn('⚠️ Failed to initialize SQLite database file, falling back to memory store:', err.message);
+    db = null;
   }
 }
 
-initDatabase();
+if (!db) {
+  console.log('⚡ Initializing StayOS in-memory database engine for serverless execution...');
+  db = require('./memoryDb');
+}
 
 module.exports = db;

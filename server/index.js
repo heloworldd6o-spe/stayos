@@ -89,8 +89,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start Server (only when run directly, not when required in serverless functions like Vercel)
-if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL && !process.env.NETLIFY) {
+// Start Server (only when run directly as main entrypoint)
+if (require.main === module) {
   app.listen(PORT, () => {
     console.log(`🚀 StayOS Production-Ready API Server listening on http://localhost:${PORT}`);
     
