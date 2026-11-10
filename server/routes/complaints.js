@@ -21,7 +21,7 @@ router.get('/', requireAuth, enforceTenant, (req, res) => {
         p.name as property_name,
         s.name as assigned_staff_name
       FROM complaints c
-      JOIN residents r ON c.resident_id = r.id
+      LEFT JOIN residents r ON c.resident_id = r.id
       JOIN properties p ON c.property_id = p.id
       LEFT JOIN rooms rm ON c.room_id = rm.id
       LEFT JOIN staff s ON c.assigned_to_staff_id = s.id
@@ -68,7 +68,7 @@ router.get('/', requireAuth, enforceTenant, (req, res) => {
       params.push(priority);
     }
 
-    query += " ORDER BY CASE c.status WHEN 'submitted' THEN 1 WHEN 'assigned' THEN 2 WHEN 'in_progress' THEN 3 ELSE 4 END, c.created_at DESC";
+    query += " ORDER BY CASE WHEN c.status = 'submitted' THEN 1 WHEN c.status = 'assigned' THEN 2 WHEN c.status = 'in_progress' THEN 3 ELSE 4 END, c.created_at DESC";
 
     const complaints = db.prepare(query).all(...params);
     const parsed = complaints.map(c => ({
