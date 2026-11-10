@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/properties (List all properties for this tenant)
 router.get('/', requireAuth, enforceTenant, (req, res) => {

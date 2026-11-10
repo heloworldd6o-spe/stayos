@@ -1,12 +1,12 @@
 const db = require('../db/database');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 function logAudit(req, { action, entity, entityId = null, oldValues = null, newValues = null }) {
   try {
     const user = req.user || {};
     const orgId = req.tenantId || user.organization_id || null;
-    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '127.0.0.1';
-    const userAgent = req.headers['user-agent'] || 'StayOS Client';
+    const ip = (req.headers && (req.headers['x-forwarded-for'] || req.headers['x-real-ip'])) || (req.socket && req.socket.remoteAddress) || req.ip || '127.0.0.1';
+    const userAgent = (req.headers && req.headers['user-agent']) || 'StayOS Client';
 
     const stmt = db.prepare(`
       INSERT INTO audit_logs (id, organization_id, user_id, user_name, action, entity, entity_id, old_values, new_values, ip_address, user_agent)

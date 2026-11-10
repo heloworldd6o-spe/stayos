@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/staff (List all staff members)
 router.get('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant', 'warden'), (req, res) => {

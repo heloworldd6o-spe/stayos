@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 const db = require('../db/database');
 const NotificationService = require('./notificationService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 const PAYMENT_GATEWAY_KEY = process.env.PAYMENT_GATEWAY_KEY || 'rzp_test_stayos_demo_key';
 const PAYMENT_GATEWAY_SECRET = process.env.PAYMENT_GATEWAY_SECRET || 'stayos_secret_webhook_signature_2026';

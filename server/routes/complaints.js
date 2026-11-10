@@ -4,7 +4,7 @@ const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const NotificationService = require('../services/notificationService');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/complaints (List complaints with category, priority, status filters)
 router.get('/', requireAuth, enforceTenant, (req, res) => {

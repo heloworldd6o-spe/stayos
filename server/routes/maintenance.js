@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/maintenance (List maintenance tasks)
 router.get('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'warden', 'maintenance'), (req, res) => {

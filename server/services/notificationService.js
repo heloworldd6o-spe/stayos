@@ -1,5 +1,5 @@
 const db = require('../db/database');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 class NotificationService {
   /**

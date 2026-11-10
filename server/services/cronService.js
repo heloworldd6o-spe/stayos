@@ -1,6 +1,6 @@
 const db = require('../db/database');
 const NotificationService = require('./notificationService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 class CronService {
   /**

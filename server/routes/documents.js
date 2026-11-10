@@ -5,7 +5,7 @@ const fs = require('fs');
 const db = require('../db/database');
 const { requireAuth, enforceTenant } = require('../middleware/auth');
 const { upload, uploadDir } = require('../services/storageService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // POST /api/documents/upload (Upload resident or staff document)
 router.post('/upload', requireAuth, enforceTenant, (req, res) => {

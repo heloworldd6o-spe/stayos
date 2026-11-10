@@ -4,7 +4,7 @@ const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
 const NotificationService = require('../services/notificationService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // POST /api/checkouts/calculate (Preview settlement breakdown before confirming)
 router.post('/calculate', requireAuth, enforceTenant, (req, res) => {

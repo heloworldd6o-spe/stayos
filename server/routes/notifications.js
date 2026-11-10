@@ -111,7 +111,7 @@ router.put('/preferences', requireAuth, (req, res) => {
           food_alerts, payment_alerts, complaint_alerts, notice_alerts
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
       `).run(
-        require('uuid').v4(), req.user.id,
+        require('../utils/uuid').v4(), req.user.id,
         in_app_enabled ? 1 : 0, email_enabled ? 1 : 0, whatsapp_enabled ? 1 : 0, sms_enabled ? 1 : 0,
         food_alerts ? 1 : 0, payment_alerts ? 1 : 0, complaint_alerts ? 1 : 0, notice_alerts ? 1 : 0
       );

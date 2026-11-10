@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const PaymentService = require('../services/paymentService');
 const NotificationService = require('../services/notificationService');
 const CronService = require('../services/cronService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 async function runStayOSTests() {
   console.log('🧪 ========================================================');

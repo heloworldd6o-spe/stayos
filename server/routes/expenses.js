@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/expenses (List expenses with category filtering and summary)
 router.get('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant'), (req, res) => {

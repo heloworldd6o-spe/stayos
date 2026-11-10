@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const db = require('./database');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 async function seedData() {
   console.log('🌱 Seeding StayOS database with rich production demo data...');

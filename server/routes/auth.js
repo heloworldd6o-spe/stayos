@@ -4,12 +4,12 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/database');
 const { generateToken, requireAuth } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // POST /api/auth/login
 router.post('/login', async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { email, password } = req.body || {};
     if (!email || !password) {
       return res.status(400).json({ error: 'Please provide both email and password.' });
     }
@@ -82,7 +82,7 @@ router.post('/login', async (req, res) => {
 // POST /api/auth/register (New Organization Signup)
 router.post('/register', async (req, res) => {
   try {
-    const { orgName, fullName, email, phone, password, propertyName, city, planCode = 'growth' } = req.body;
+    const { orgName, fullName, email, phone, password, propertyName, city, planCode = 'growth' } = req.body || {};
     if (!orgName || !fullName || !email || !password) {
       return res.status(400).json({ error: 'Please provide organization name, your full name, email, and password.' });
     }
@@ -197,7 +197,7 @@ router.get('/me', requireAuth, (req, res) => {
 // POST /api/auth/demo-switch (Instant role switch for demo and testing)
 router.post('/demo-switch', (req, res) => {
   try {
-    const { role, email } = req.body;
+    const { role, email } = req.body || {};
     let targetUser = null;
 
     if (email) {

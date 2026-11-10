@@ -3,7 +3,7 @@ const router = express.Router();
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const NotificationService = require('../services/notificationService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/visitors (List visitors with filters)
 router.get('/', requireAuth, enforceTenant, (req, res) => {

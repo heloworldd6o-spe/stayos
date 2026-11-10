@@ -5,7 +5,7 @@ const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
 const NotificationService = require('../services/notificationService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // POST /api/checkins (Full Check-In Workflow)
 router.post('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist'), async (req, res) => {

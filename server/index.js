@@ -11,6 +11,15 @@ const PORT = process.env.PORT || 5000;
 
 // Security & Middleware
 app.use(cors({ origin: true, credentials: true }));
+
+// Serverless / Vercel pre-parsed body bridge
+app.use((req, res, next) => {
+  if (req.body && typeof req.body === 'object' && Object.keys(req.body).length > 0) {
+    req._body = true;
+  }
+  next();
+});
+
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 

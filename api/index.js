@@ -19,6 +19,13 @@ module.exports = (req, res) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, x-organization-id');
 
+  // Parse string body if Vercel delivers it unparsed
+  if (req.body && typeof req.body === 'string') {
+    try {
+      req.body = JSON.parse(req.body);
+    } catch (e) {}
+  }
+
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }

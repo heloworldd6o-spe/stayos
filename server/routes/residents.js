@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 const db = require('../db/database');
 const { requireAuth, enforceTenant, requireRole } = require('../middleware/auth');
 const { logAudit } = require('../services/auditService');
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4 } = require('../utils/uuid');
 
 // GET /api/residents (List residents with search, property filter, status filter)
 router.get('/', requireAuth, enforceTenant, (req, res) => {
