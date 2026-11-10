@@ -136,7 +136,7 @@ router.get('/:id', requireAuth, enforceTenant, (req, res) => {
 });
 
 // POST /api/invoices (Create custom/ad-hoc invoice)
-router.post('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant'), (req, res) => {
+router.post('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant', 'warden', 'receptionist'), (req, res) => {
   try {
     const orgId = req.tenantId;
     const {

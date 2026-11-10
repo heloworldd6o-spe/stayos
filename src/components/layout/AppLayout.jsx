@@ -55,15 +55,15 @@ export default function AppLayout({ activeTab, setActiveTab, children }) {
         { id: 'residents', label: 'Residents Directory', icon: Users, roles: ['super_admin', 'owner', 'manager', 'warden', 'receptionist'] },
         { id: 'rooms', label: 'Rooms Matrix', icon: DoorOpen, roles: ['super_admin', 'owner', 'manager', 'warden', 'receptionist'] },
         { id: 'beds', label: 'Available Beds', icon: Bed, roles: ['super_admin', 'owner', 'manager', 'warden', 'receptionist'], badge: 'Vacant' },
-        { id: 'checkin', label: 'New Check-In', icon: UserCheck, roles: ['super_admin', 'owner', 'manager', 'receptionist'] }
+        { id: 'checkin', label: 'New Check-In', icon: UserCheck, roles: ['super_admin', 'owner', 'manager', 'receptionist', 'warden'] }
       ]
     },
     {
       title: 'Finance & Accounts',
-      roles: ['super_admin', 'owner', 'manager', 'accountant', 'receptionist'],
+      roles: ['super_admin', 'owner', 'manager', 'accountant', 'receptionist', 'warden'],
       items: [
-        { id: 'payments', label: 'Payments & Receipts', icon: CreditCard, roles: ['super_admin', 'owner', 'manager', 'accountant', 'receptionist'] },
-        { id: 'invoices', label: 'Invoices & Rent', icon: Receipt, roles: ['super_admin', 'owner', 'manager', 'accountant'] },
+        { id: 'payments', label: 'Payments & Receipts', icon: CreditCard, roles: ['super_admin', 'owner', 'manager', 'accountant', 'receptionist', 'warden'] },
+        { id: 'invoices', label: 'Invoices & Rent', icon: Receipt, roles: ['super_admin', 'owner', 'manager', 'accountant', 'warden'] },
         { id: 'expenses', label: 'Expenses Ledger', icon: TrendingDown, roles: ['super_admin', 'owner', 'manager', 'accountant'] },
         { id: 'reports', label: 'Financial Reports', icon: BarChart3, roles: ['super_admin', 'owner', 'manager', 'accountant'] }
       ]

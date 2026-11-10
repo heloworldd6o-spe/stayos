@@ -8,7 +8,7 @@ const NotificationService = require('../services/notificationService');
 const { v4: uuidv4 } = require('../utils/uuid');
 
 // POST /api/checkins (Full Check-In Workflow)
-router.post('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist'), async (req, res) => {
+router.post('/', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist', 'warden'), async (req, res) => {
   try {
     const orgId = req.tenantId;
     const {

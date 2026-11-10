@@ -65,7 +65,7 @@ router.post('/calculate', requireAuth, enforceTenant, (req, res) => {
 });
 
 // POST /api/checkouts/settle (Execute formal checkout, bed release & archive)
-router.post('/settle', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist'), (req, res) => {
+router.post('/settle', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist', 'warden'), (req, res) => {
   try {
     const orgId = req.tenantId;
     const {

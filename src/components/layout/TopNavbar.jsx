@@ -40,7 +40,7 @@ export default function TopNavbar({ onOpenNotifications, onSearchClick }) {
     { role: 'owner', label: 'Owner', desc: 'Full Organization & P&L Control', color: 'bg-emerald-50 text-emerald-700 border-emerald-200' },
     { role: 'manager', label: 'Manager', desc: 'Daily Operations, Beds & Check-ins', color: 'bg-blue-50 text-blue-700 border-blue-200' },
     { role: 'accountant', label: 'Accountant', desc: 'Invoices, Payments & Expenses', color: 'bg-amber-50 text-amber-700 border-amber-200' },
-    { role: 'warden', label: 'Warden', desc: 'Attendance, Visitors & Complaints', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
+    { role: 'warden', label: 'Warden', desc: 'Attendance, Visitors, Payments & Desk', color: 'bg-indigo-50 text-indigo-700 border-indigo-200' },
     { role: 'receptionist', label: 'Receptionist', desc: 'Front Desk, Check-ins & Gate', color: 'bg-teal-50 text-teal-700 border-teal-200' },
     { role: 'chef', label: 'Chef', desc: 'Kitchen Dashboard & Food Alerts', color: 'bg-orange-50 text-orange-700 border-orange-200' },
     { role: 'kitchen_staff', label: 'Kitchen Staff', desc: 'Meal Counts & Prep Checklist', color: 'bg-amber-50 text-amber-700 border-amber-200' },

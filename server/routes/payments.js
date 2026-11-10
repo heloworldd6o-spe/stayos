@@ -222,7 +222,7 @@ router.post('/verify', requireAuth, enforceTenant, (req, res) => {
 });
 
 // POST /api/payments/record-offline (Record Cash / Bank Transfer / UPI at desk)
-router.post('/record-offline', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant', 'receptionist'), (req, res) => {
+router.post('/record-offline', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'accountant', 'receptionist', 'warden'), (req, res) => {
   try {
     const orgId = req.tenantId;
     const {

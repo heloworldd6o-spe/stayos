@@ -161,7 +161,7 @@ router.get('/:id', requireAuth, enforceTenant, (req, res) => {
 });
 
 // PUT /api/residents/:id (Update resident profile)
-router.put('/:id', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist'), (req, res) => {
+router.put('/:id', requireAuth, enforceTenant, requireRole('super_admin', 'owner', 'manager', 'receptionist', 'warden'), (req, res) => {
   try {
     const orgId = req.tenantId;
     const {
